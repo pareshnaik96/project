@@ -34,8 +34,7 @@ let authorSchema = mongoose.Schema(
         password: {
             type: String,
             required: [true, "Password is required"],
-            trim: true,
-            validate:[passwordValidate, "Please enter a valid password"],
+            trim: true
         }
     },
     { timestamps: true }
