@@ -137,12 +137,12 @@ let deleteBlogByQuery = async function (req, res) {
         if (!Object.keys(data).length)
             return res.status(400).send({ status: false, msg: "No user input" })
         let filter = { isDeleted: false, ...data }
-        
+
         let findDocsById = await blogModel.find(filter).select({ _id: 1 })
         if (!findDocsById.length)
             return res.status(400).send({ status: false, msg: "Document Not found" })
-       
-            let deleteBlog = await blogModel.updateMany({ _id: findDocsById, isDeleted: false },
+
+        let deleteBlog = await blogModel.updateMany({ _id: findDocsById, isDeleted: false },
             { $set: { isDeleted: true, deletedAt: new Date() } }, { new: true })
         res.status(200).send({ status: true, data: deleteBlog })
     }
