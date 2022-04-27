@@ -1,10 +1,8 @@
-const express = require("express")
 
-const blogModel = require("../Models/blogModel")
 const authorModel = require("../Models/authorModel")
 
 let emailRegex = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;
-
+// Author Creation
 let createAuthor = async function (req, res) {
     try {
         let data = req.body
@@ -18,14 +16,14 @@ let createAuthor = async function (req, res) {
 
             if (data.fname.length <= 3) return res.status(400).send({ status: false, msg: "fName length should be min 3" })
             if (data.password.length <= 6) return res.status(400).send({ status: false, msg: "password length should be min 6" })
-
+            // Email Validation
             if (!emailRegex.test(data.email))
-                return res.status(400).send({ status: false, msg: "please provide valid email" })
-
-            const usedEmail = await authorModel.findOne({email:data.email })
+                return res.status(400).send({ status: false, msg: "Please provide valid email" })
+            // Unique Email
+            const usedEmail = await authorModel.findOne({ email: data.email })
             if (usedEmail)
                 return res.status(400).send({ status: false, msg: "Email Id already exists" })
-           
+
 
             let saveData = await authorModel.create(data);
             res.status(201).send({ status: true, msg: saveData });

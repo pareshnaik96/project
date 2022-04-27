@@ -5,11 +5,6 @@ let validateEmail = function(email) {
     return emailRegex.test(email)
 };
 
-let passwordValidate = function (password) {
-    let passwordRegex = /^[\w@#$%^&*]{8,20}$/;
-    return passwordRegex.test(password)
-};
-
 let authorSchema = mongoose.Schema(
     {
         fname: {
