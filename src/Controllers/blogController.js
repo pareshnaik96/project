@@ -1,4 +1,4 @@
-const blogModel = require("../Models/blogModel")
+
 const ObjectId = require("mongoose").Types.ObjectId;
 
 let deleteBlogById = async function (req, res) {
@@ -31,3 +31,4 @@ let deleteBlogByQuery = async function (req, res) {
 
 module.exports.deleteBlogById = deleteBlogById;
 module.exports.deleteBlogByQuery = deleteBlogByQuery;
+
