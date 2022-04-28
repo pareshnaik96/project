@@ -1,9 +1,14 @@
 
 const authorModel = require("../Models/authorModel")
 
-let emailRegex = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;
+let emailRegex = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;  //email validation
 
-let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,15}$/
+let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,15}$/  //password validation
+
+const isValidTitle = function(title){    
+    return ['Mr', 'Mrs', 'Miss'].indexOf(title) !== -1     //enum validation
+}
+
 
 // Author Creation
 let createAuthor = async function (req, res) {
@@ -13,11 +18,11 @@ let createAuthor = async function (req, res) {
 
             if (!data.fname) return res.status(400).send({ status: false, msg: "Please enter the required field fName" })
             if (!data.lname) return res.status(400).send({ status: false, msg: "Please enter the required field lName" })
-            if (!data.title) return res.status(400).send({ status: false, msg: "Please enter the required field title" })
+            if (!isValidTitle(data.title)) return res.status(400).send({ status: false, msg: "Please enter the required field title" })
             if (!data.email) return res.status(400).send({ status: false, msg: "Please enter the required field email" })
             if (!data.password) return res.status(400).send({ status: false, msg: "Please enter the required field password" })
 
-            if (data.fname.length <= 2) return res.status(400).send({ status: false, msg: "fName length should be min 2" })
+            if (data.fname.length < 2 ) return res.status(400).send({ status: false, msg: "fName length should be min 2" })
 
             // Email Validation
             if (!emailRegex.test(data.email))
