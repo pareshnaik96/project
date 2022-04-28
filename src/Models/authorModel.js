@@ -5,6 +5,11 @@ let validateEmail = function(email) {
     return emailRegex.test(email)
 };
 
+let validatePassword = function(password){
+    let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/
+     return passwordRegex.test(password)
+}
+
 let authorSchema = mongoose.Schema(
     {
         fname: {
@@ -33,8 +38,9 @@ let authorSchema = mongoose.Schema(
         },
         password: {
             type: String,
-            required: [true, "Password is required"],
-            trim: true
+            required: true,
+            trim: true,
+            validate: [validatePassword]
         }
     },
     { timestamps: true }

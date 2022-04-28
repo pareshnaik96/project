@@ -2,6 +2,9 @@
 const authorModel = require("../Models/authorModel")
 
 let emailRegex = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;
+
+let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,15}$/
+
 // Author Creation
 let createAuthor = async function (req, res) {
     try {
@@ -14,8 +17,8 @@ let createAuthor = async function (req, res) {
             if (!data.email) return res.status(400).send({ status: false, msg: "Please enter the required field email" })
             if (!data.password) return res.status(400).send({ status: false, msg: "Please enter the required field password" })
 
-            if (data.fname.length <= 3) return res.status(400).send({ status: false, msg: "fName length should be min 3" })
-            if (data.password.length <= 6) return res.status(400).send({ status: false, msg: "password length should be min 6" })
+            if (data.fname.length <= 2) return res.status(400).send({ status: false, msg: "fName length should be min 2" })
+
             // Email Validation
             if (!emailRegex.test(data.email))
                 return res.status(400).send({ status: false, msg: "Please provide valid email" })
@@ -23,7 +26,9 @@ let createAuthor = async function (req, res) {
             const usedEmail = await authorModel.findOne({ email: data.email })
             if (usedEmail)
                 return res.status(400).send({ status: false, msg: "Email Id already exists" })
-
+            // Password Validation
+            if (!passwordRegex.test(data.password))
+                return res.status(400).send({ status: false, msg: "Your password should contain min 6-15 characters, min 1 uppercase, 1 lowercase and 1 special character(@$!%*?&)" })
 
             let saveData = await authorModel.create(data);
             res.status(201).send({ status: true, msg: saveData });
