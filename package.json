@@ -1,0 +1,33 @@
+{
+  "name": "project-1-blogging",
+  "version": "1.0.0",
+  "description": "Function Up/Uranium/Project-1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dey-animesh98/Project-1-blogging.git"
+  },
+  "author": "group-4",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dey-animesh98/Project-1-blogging/issues"
+  },
+  "homepage": "https://github.com/dey-animesh98/Project-1-blogging#readme",
+  "dependencies": {
+    "axios": "^0.27.1",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.0",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.3",
+    "mongoose": "^6.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
