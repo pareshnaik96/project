@@ -5,22 +5,19 @@ let validateEmail = function(email) {
     return emailRegex.test(email)
 };
 
-let validatePassword = function(password){
-    let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,15}$/
-     return passwordRegex.test(password)
-}
-
 let authorSchema = mongoose.Schema(
     {
         fname: {
             type: String,
             required: [true, "First name is required"],
             trim: true,
+            lowercase: true
         },
         lname: {
             type: String,
             required: [true, "Last name is required"],
             trim: true,
+            lowercase: true
         },
         title: {
             type: String,
@@ -39,8 +36,7 @@ let authorSchema = mongoose.Schema(
         password: {
             type: String,
             required: true,
-            trim: true,
-            validate: [validatePassword]
+            trim: true
         }
     },
     { timestamps: true }

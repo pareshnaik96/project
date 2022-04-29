@@ -24,7 +24,6 @@ let blogSchema = mongoose.Schema(
             type: String,
             required: [true, "Category is required"],
             trim:true
-     
         },
         subcategory: [String],
         isPublished: {
