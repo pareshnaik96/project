@@ -54,12 +54,13 @@ let createAuthor = async function (req, res) {
 
 let loginUser = async function (req, res) {
     try {
-        userId = req.body.userId;
-        password = req.body.password;
+        
+       let userId = req.body.userId;
+        let password = req.body.password;
         if (!userId) return res.status(400).send({ status: false, msg: "User id is required" })
         if (!password) return res.status(400).send({ status: false, msg: "Password is required" })
         let getUser = await authorModel.findOne({ email: userId }).select({ password: 1 })
-        if (!Object.keys(getUser).length) return res.status(404).send({ status: false, msg: "User not found" })
+        if (!getUser) return res.status(404).send({ status: false, msg: "Author not found" })
         const matchPassword = await bcrypt.compare(password, getUser.password)
         if (!matchPassword) return res.status(401).send({ status: false, msg: "Password is incorrect" })
         //To create token
@@ -83,3 +84,20 @@ let loginUser = async function (req, res) {
 
 module.exports.createAuthor = createAuthor;
 module.exports.loginUser = loginUser;
+
+// Authors Email Id and Password Details
+// 1. Nazrul Islam
+// "userId": "nazrul@gmai",
+// "password": "Nazrul@123"
+
+// 2. Ruskin Bond
+// "userId": "ruskin@gmail.com",
+// "password": "Ruskin@123"
+
+// 3.Sashi Tharoor
+// "userId": "sashi@gmail.com",
+// "password": "Sashi@123"
+
+// 4. Sudha Murthy
+// "userId": "sudha@gmail.com",
+// "password": "Sudha@123"
