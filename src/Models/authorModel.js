@@ -6,7 +6,7 @@ let validateEmail = function(email) {
 };
 
 let validatePassword = function(password){
-    let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/
+    let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,15}$/
      return passwordRegex.test(password)
 }
 

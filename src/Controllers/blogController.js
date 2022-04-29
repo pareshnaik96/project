@@ -14,24 +14,24 @@ let createBlog = async function (req, res) {
             if (!data.body) return res.status(400).send({ status: false, msg: "Please Fill the required field body!" })
             if (!data.authorId) return res.status(400).send({ status: false, msg: "Please Fill the required field Author details!" })
             if (!data.category) return res.status(400).send({ status: false, msg: "Please Fill the required field catergory!" })
+           
             // Validation of ID format
-            let isValid = mongoose.Types.ObjectId.isValid(data.authorId)
-            if (isValid == false) return res.status(400).send({ status: false, msg: "Not a valid author ID" })
+            if (!ObjectId.isValid(data.authorId)) return res.status(400).send({ status: false, msg: "Not a valid author ID" })
+           
             // Validation of id exist or not
             let id = req.body.authorId
             let findAuthorId = await authorModel.findById(id)
-            if (!findAuthorId) return res.status(400).send({ status: false, msg: "Author Not found. Please enter a valid Author id." })
+            if (!findAuthorId) return res.status(404).send({ status: false, msg: "Author Not found. Please enter a valid Author id." })
+           
             // Adding Publish date if true
             if (data.isPublished)
                 req.body['publishedAt'] = new Date()
 
-
             let saveData = await blogModel.create(data);
             res.status(201).send({ status: true, msg: saveData });
         } else {
-            res.status(400).send({ status: false, msg: "NO USER INPUT" })
+           return res.status(400).send({ status: false, msg: "NO USER INPUT" })
         }
-
     }
     catch (err) {
         console.log(err.message)
@@ -70,10 +70,9 @@ const getBlogs = async function (req, res) {
 const updateBlogById = async function (req, res) {
     try {
         let id = req.params.blogId
-
-        let isValid = mongoose.Types.ObjectId.isValid(id)
-        if (isValid == false) return res.status(400).send({ status: false, msg: "Not a valid BLOG ID" })
-
+        // ID validation
+        if (!ObjectId.isValid(id)) return res.status(400).send({ status: false, msg: "Not a valid BLOG ID" })
+        // Id verification
         let blogDetails = await blogModel.findById(id)
         let blogDelete = blogDetails.isDeleted
         if (blogDelete == true) return res.status(404).send({ status: false, msg: "Blog is deleted" })
@@ -140,7 +139,7 @@ let deleteBlogByQuery = async function (req, res) {
 
         let findDocsById = await blogModel.find(filter).select({ _id: 1 })
         if (!findDocsById.length)
-            return res.status(400).send({ status: false, msg: "Document Not found" })
+            return res.status(404).send({ status: false, msg: "Document Not found" })
 
         let deleteBlog = await blogModel.updateMany({ _id: findDocsById},
             { $set: { isDeleted: true, deletedAt: new Date() } }, { new: true })

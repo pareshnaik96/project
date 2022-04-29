@@ -1,5 +1,6 @@
 
 const authorModel = require("../Models/authorModel")
+const jwt = require("jsonwebtoken")
 
 let emailRegex = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;  //email validation
 
@@ -31,19 +32,22 @@ let createAuthor = async function (req, res) {
 
             // Password Validation
             if (!passwordRegex.test(data.password))
-                return res.status(400).send({ status: false, msg: "Your password should contain min 6-15 characters, min 1 uppercase, 1 lowercase and 1 special character(@$!%*?&)" })
+                return res.status(400).send({ status: false, msg: "Your password should contain min 6-15 characters,0-9, a-z, A-Z, [ @ $ ! % * ? & ]" })
 
-            let saveData = await authorModel.create(data);
-            res.status(201).send({ status: true, msg: saveData });
+            let Data = await authorModel.create(data);
+            res.status(201).send({ status: true, msg: Data });
         }
         else {
             res.status(400).send({ status: false, msg: "NO USER INPUT" })
         }
-
     }
     catch (err) {
         console.log(err.message)
         res.status(500).send({ status: false, msg: err.message });
     }
 }
+
+
+
+    
 module.exports.createAuthor = createAuthor
