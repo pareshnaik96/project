@@ -3,7 +3,7 @@ const blogModel = require("../Models/blogModel")
 const ObjectId = require("mongoose").Types.ObjectId;
 
 // Blog Creation
-let createBlog = async function (req, res) {
+const createBlog = async function (req, res) {
     try {
         let data = req.body;
         if (Object.keys(data).length != 0) {
@@ -104,7 +104,7 @@ const updateBlogById = async function (req, res) {
 }
 
 // Delete by Id
-let deleteBlogById = async function (req, res) {
+const deleteBlogById = async function (req, res) {
     try {
         let blogId = req.params.blogId;
         if (!ObjectId.isValid(blogId))
@@ -122,7 +122,7 @@ let deleteBlogById = async function (req, res) {
 }
 
 // Delete by Query
-let deleteBlogByQuery = async function (req, res) {
+const deleteBlogByQuery = async function (req, res) {
     try {
         let data = req.query
         let filter = { isDeleted: false, ...data }

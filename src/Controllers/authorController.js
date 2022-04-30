@@ -12,7 +12,7 @@ const isValidTitle = function (title) {
 }
 
 // Author Creation
-let createAuthor = async function (req, res) {
+const createAuthor = async function (req, res) {
     try {
         let data = req.body
         if (Object.keys(data).length != 0) {
@@ -52,7 +52,7 @@ let createAuthor = async function (req, res) {
     }
 }
 
-let loginUser = async function (req, res) {
+const loginUser = async function (req, res) {
     try {
         
        let userId = req.body.email;

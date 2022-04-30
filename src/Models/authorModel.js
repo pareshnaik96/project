@@ -5,7 +5,7 @@ let validateEmail = function(email) {
     return emailRegex.test(email)
 };
 
-let authorSchema = mongoose.Schema(
+const authorSchema = mongoose.Schema(
     {
         fname: {
             type: String,

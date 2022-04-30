@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const objectId = mongoose.Schema.Types.ObjectId;
 
-let blogSchema = mongoose.Schema(
+const blogSchema = mongoose.Schema(
     {
         title: {
             type: String,
