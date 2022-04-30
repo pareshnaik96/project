@@ -55,4 +55,3 @@ module.exports.authenticateUser = authenticateUser;
 module.exports.authoriseUser = authoriseUser;
 module.exports.authUser = authUser;
 
-//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JJZCI6IjYyNmMwYmYwMWE5OTRiMGY3ZDQ4MTYzZSIsImRldmVsb3BlciI6IlNhY2hpbiIsImlhdCI6MTY1MTI1OTAzM30.huJTkayMk0OaYcZXmxVGZhkT7rTORNFkcL9kPfVhoHE
