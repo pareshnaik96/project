@@ -4,8 +4,8 @@ const bcrypt = require('bcrypt')
 const saltRounds = 11;
 const jwt = require("jsonwebtoken")
 
-let emailRegex = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;  //email validation
-let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,15}$/  //password validation
+let emailRegex = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;     //email validation
+let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,15}$/    //password validation
 
 const isValidTitle = function (title) {
     return ['Mr', 'Mrs', 'Miss'].indexOf(title) !== -1     //enum validation
@@ -29,7 +29,7 @@ let createAuthor = async function (req, res) {
 
             // Unique Email
             const usedEmail = await authorModel.findOne({ email: data.email })
-            if (usedEmail) return res.status(400).send({ status: false, msg: "Email Id already exists" })
+            if (usedEmail) return res.status(400).send({ status: false, msg: "Email Id already exists." })
 
             // Password Validation
             if (!passwordRegex.test(data.password))
@@ -55,14 +55,14 @@ let createAuthor = async function (req, res) {
 let loginUser = async function (req, res) {
     try {
         
-       let userId = req.body.userId;
+       let userId = req.body.email;
         let password = req.body.password;
-        if (!userId) return res.status(400).send({ status: false, msg: "User id is required" })
-        if (!password) return res.status(400).send({ status: false, msg: "Password is required" })
+        if (!userId) return res.status(400).send({ status: false, msg: "email is required." })
+        if (!password) return res.status(400).send({ status: false, msg: "Password is required." })
         let getUser = await authorModel.findOne({ email: userId }).select({ password: 1 })
-        if (!getUser) return res.status(404).send({ status: false, msg: "Author not found" })
+        if (!getUser) return res.status(404).send({ status: false, msg: "Author not found!" })
         const matchPassword = await bcrypt.compare(password, getUser.password)
-        if (!matchPassword) return res.status(401).send({ status: false, msg: "Password is incorrect" })
+        if (!matchPassword) return res.status(401).send({ status: false, msg: "Password is incorrect." })
         //To create token
         let token;
         try {
@@ -77,6 +77,7 @@ let loginUser = async function (req, res) {
         return res.status(201).send({ status: true, msg: "User login sucessful" })
     }
     catch (err) {
+        console.log(err.message)
         return res.status(500).send({ status: false, msg: "Error", error: err.message })
     }
 }
@@ -87,17 +88,17 @@ module.exports.loginUser = loginUser;
 
 // Authors Email Id and Password Details
 // 1. Nazrul Islam
-// "userId": "nazrul@gmai",
+// "email": "nazrul@gmai",
 // "password": "Nazrul@123"
 
 // 2. Ruskin Bond
-// "userId": "ruskin@gmail.com",
+// "email": "ruskin@gmail.com",
 // "password": "Ruskin@123"
 
 // 3.Sashi Tharoor
-// "userId": "sashi@gmail.com",
+// "email": "sashi@gmail.com",
 // "password": "Sashi@123"
 
 // 4. Sudha Murthy
-// "userId": "sudha@gmail.com",
+// "email": "sudha@gmail.com",
 // "password": "Sudha@123"

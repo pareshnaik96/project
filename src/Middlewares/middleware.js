@@ -1,11 +1,11 @@
-const authorModel = require("../Models/authorModel");
 const jwt = require("jsonwebtoken");
+const authorModel = require("../Models/authorModel");
 const blogModel = require("../Models/blogModel");
 const ObjectId = require("mongoose").Types.ObjectId;
 
 let decodeToken;
 //Authentication
-let authenticateUser =  function (req, res, next) {
+let authentication =  function (req, res, next) {
     try {
         let token = req.headers["x-api-key"]
         if (!token) token = req.headers["X-Api-Key"]
@@ -17,13 +17,14 @@ let authenticateUser =  function (req, res, next) {
         }
         next()
     } catch (err) {
+        console.log(err.message)
         return res.status(500).send({ status: false, msg: "Error", error: err.message })
     }
 }
 // Blog Id authorization
-let authoriseUser = async function (req, res, next) {
+let authorization1 = async function (req, res, next) {
     try {
-        let blogId = req.params.blogId;
+        let blogId = req.params.blogId || req.query
         if (!ObjectId.isValid(blogId)) return res.status(400).send({ status: false, msg: "Not a valid blog id" })
         let getBlog = await blogModel.findById(blogId)
         if (!getBlog) return res.status(404).send({ status: false, msg: "Blog Not Found." })
@@ -31,6 +32,7 @@ let authoriseUser = async function (req, res, next) {
         next();
     }
     catch (err) {
+        console.log(err.message)
         return res.status(500).send({ status: false, msg: "Error", error: err.message })
     }
 }
@@ -54,8 +56,7 @@ let authorization2 = async function (req, res, next) {
     }
 }
 
-
-module.exports.authenticateUser = authenticateUser;
-module.exports.authoriseUser = authoriseUser;
+module.exports.authentication = authentication
+module.exports.authorization1 = authorization1
 module.exports.authorization2 = authorization2
 

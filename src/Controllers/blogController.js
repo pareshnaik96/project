@@ -25,12 +25,12 @@ let createBlog = async function (req, res) {
             let saveData = await blogModel.create(data);
             return res.status(201).send({ status: true, msg: saveData });
         } else {
-           return res.status(400).send({ status: false, msg: "NO USER INPUT" })
+            return res.status(400).send({ status: false, msg: "NO USER INPUT" })
         }
     }
     catch (err) {
         console.log(err.message)
-      return res.status(500).send({ status: false, msg: err.message });
+        return res.status(500).send({ status: false, msg: err.message });
     }
 }
 
@@ -43,14 +43,14 @@ const getBlogs = async function (req, res) {
             // If both condition false 
             if (Object.entries(findBLogs).length == 0)
                 return res.status(404).send({ status: false, msg: "Sorry!! No blogs found." })
-          return res.status(200).send({ status: true, msg: findBLogs })
+            return res.status(200).send({ status: true, msg: findBLogs })
         } else {
             let filter = { isDeleted: false, isPublished: true, ...userInput }
 
             const filterByInput = await blogModel.find(filter)
             if (Object.entries(filterByInput).length == 0)
                 return res.status(404).send({ status: false, msg: "Sorry!! No blogs found. Please enter valid Input." })
-           return res.status(200).send({ status: true, msg: filterByInput })
+            return res.status(200).send({ status: true, msg: filterByInput })
         }
 
     } catch (err) {
@@ -69,11 +69,13 @@ const updateBlogById = async function (req, res) {
         let blogDetails = await blogModel.findById(id)
         let blogDelete = blogDetails.isDeleted
         if (blogDelete == true) return res.status(404).send({ status: false, msg: "Blog is deleted" })
+       
         let updatedData = req.body
         let updatedTitle = req.body.title
         let updatedBody = req.body.body
         let updatedTag = req.body.tags
         let updatedSubcategory = req.body.subcategory
+       
         if (Object.keys(updatedData).length == 0) return res.status(400).send({ status: false, msg: "NO INPUT BY USER" })
         let blogPublished = blogDetails.isPublished
         // if book is not published 
@@ -83,7 +85,7 @@ const updateBlogById = async function (req, res) {
                     $set: { title: updatedTitle, body: updatedBody, isPublished: true, publishedAt: new Date() },
                     $push: { tags: updatedTag, subcategory: updatedSubcategory }
                 }, { new: true })
-          return res.status(200).send({ status: true, msg: updatedBlog })
+            return res.status(200).send({ status: true, msg: updatedBlog })
         }
         // if book is already published
         else {
@@ -92,12 +94,12 @@ const updateBlogById = async function (req, res) {
                     $set: { title: updatedTitle, body: updatedBody },
                     $push: { tags: updatedTag, subcategory: updatedSubcategory }
                 }, { new: true })
-          return  res.status(200).send({ status: true, msg: updatedBlog })
+            return res.status(200).send({ status: true, msg: updatedBlog })
         }
 
     } catch (err) {
         console.log(err.message)
-      return  res.status(500).send({ status: false, msg: err.message });
+        return res.status(500).send({ status: false, msg: err.message });
     }
 }
 
@@ -111,11 +113,11 @@ let deleteBlogById = async function (req, res) {
             { _id: blogId, isDeleted: false }, { $set: { isDeleted: true, deletedAt: new Date() } }, { new: true })
         if (!deleteBlog)
             return res.status(404).send({ status: false, msg: "Blog does not exist" })
-       return res.status(200).send({ status: true, data: deleteBlog })
+        return res.status(200).send({ status: true, data: deleteBlog })
     }
     catch (err) {
         console.log(err.message)
-       return res.status(500).send({ msg: "Error", error: err.message })
+        return res.status(500).send({ msg: "Error", error: err.message })
     }
 }
 
@@ -123,21 +125,18 @@ let deleteBlogById = async function (req, res) {
 let deleteBlogByQuery = async function (req, res) {
     try {
         let data = req.query
-        if (!Object.keys(data).length)
-            return res.status(400).send({ status: false, msg: "No user input" })
         let filter = { isDeleted: false, ...data }
 
         let findDocsById = await blogModel.find(filter).select({ _id: 1 })
-        if (!findDocsById.length)
-            return res.status(404).send({ status: false, msg: "No Blogs found" })
+        if (!findDocsById.length) return res.status(404).send({ status: false, msg: "No Blogs found" })
 
-        let deleteBlog = await blogModel.updateMany({ _id: findDocsById},
+        let deleteBlog = await blogModel.updateMany({ _id: findDocsById },
             { $set: { isDeleted: true, deletedAt: new Date() } }, { new: true })
-       return res.status(200).send({ status: true, data: deleteBlog })
+        return res.status(200).send({ status: true, data: deleteBlog })
     }
     catch (err) {
         console.log(err.message)
-      return  res.status(500).send({ status: false, error: err.msg })
+        return res.status(500).send({ status: false, error: err.msg })
     }
 }
 
