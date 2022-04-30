@@ -36,16 +36,20 @@ let authoriseUser = async function (req, res, next) {
 }
 
 // Author Id authorization
-let authUser = async function (req, res, next) {
+let authorization2 = async function (req, res, next) {
     try{
-    let authorId = req.params.authorId
-    if (!ObjectId.isValid(authorId)) return res.status(400).send({ status: false, msg: "Not a valid author id" })
+    let authorId = req.query.authorId
+    if (!authorId) return res.status(400).send({status:false, msg:"Author id is required to perform this action."})
+    if (!ObjectId.isValid(authorId)) return res.status(400).send({ status: false, msg: "Not a valid author id." })
+    
     const getAuthor = await authorModel.findById(authorId)
     if(!getAuthor) return res.status(404).send({ status: false, msg: "Author Not Found." })
+   
     if(decodeToken.authorId.toString()!==authorId.toString()) return res.status(403).send({ status: false, msg: "You are not authorize to perform the action." })
     next()
 }
     catch(err) {
+        console.log(err.message)
         return res.status(500).send({ status: false, msg: "Error", error: err })
     }
 }
@@ -53,5 +57,5 @@ let authUser = async function (req, res, next) {
 
 module.exports.authenticateUser = authenticateUser;
 module.exports.authoriseUser = authoriseUser;
-module.exports.authUser = authUser;
+module.exports.authorization2 = authorization2
 
