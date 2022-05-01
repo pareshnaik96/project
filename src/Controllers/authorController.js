@@ -18,21 +18,18 @@ const createAuthor = async function (req, res) {
         const data = req.body
         if (Object.keys(data).length != 0) {
 
-            if (!data.fname) return res.status(400).send({ status: false, msg: "Please enter the required field fName" })
-            else if (data.fname) {
-                if (!data.fname.trim()) return res.status(400).send({ status: false, msg: "Please enter the required field fName" })
-            }
-            if (!data.lname) return res.status(400).send({ status: false, msg: "Please enter the required field lName" })
-            else if (data.lname) {
-                if (!data.lname.trim()) return res.status(400).send({ status: false, msg: "Please enter the required field fName" })
-            }
+            if (!data.fname || !data.lname.trim() ) return res.status(400).send({ status: false, msg: "Please enter the required field fName" })
+           
+            if (!data.lname || !data.lname.trim()) return res.status(400).send({ status: false, msg: "Please enter the required field lName" })
+          
             if (!isValidTitle(data.title)) return res.status(400).send({ status: false, msg: "Please enter the required field title" })
+          
             if (!data.email) return res.status(400).send({ status: false, msg: "Please enter the required field email" })
+           
             if (!data.password) return res.status(400).send({ status: false, msg: "Please enter the required field password" })
-            if (data.fname.length < 2) return res.status(400).send({ status: false, msg: "fName length should be min 2" })
            
             //Name validation
-            if(!nameRegex.test(data.fname) || !nameRegex.test(data.lname)) return res.status(400).send({ status: false, msg: "Name must be alphabetical" })
+            if(!nameRegex.test(data.fname) || !nameRegex.test(data.lname)) return res.status(400).send({ status: false, msg: "Name must be alphabetical and min length 2." })
            
             // Email Validation
             if (!emailRegex.test(data.email)) return res.status(400).send({ status: false, msg: "Please provide valid email" })
