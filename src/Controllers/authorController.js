@@ -18,12 +18,17 @@ const createAuthor = async function (req, res) {
         if (Object.keys(data).length != 0) {
 
             if (!data.fname) return res.status(400).send({ status: false, msg: "Please enter the required field fName" })
+            else if (data.fname) {
+                if (!data.fname.trim()) return res.status(400).send({ status: false, msg: "Please enter the required field fName" })
+            }
             if (!data.lname) return res.status(400).send({ status: false, msg: "Please enter the required field lName" })
+            else if(data.lname){
+                if(!data.lname.trim()) return res.status(400).send({ status: false, msg: "Please enter the required field fName" })
+            }
             if (!isValidTitle(data.title)) return res.status(400).send({ status: false, msg: "Please enter the required field title" })
             if (!data.email) return res.status(400).send({ status: false, msg: "Please enter the required field email" })
             if (!data.password) return res.status(400).send({ status: false, msg: "Please enter the required field password" })
             if (data.fname.length < 2) return res.status(400).send({ status: false, msg: "fName length should be min 2" })
-
             // Email Validation
             if (!emailRegex.test(data.email)) return res.status(400).send({ status: false, msg: "Please provide valid email" })
 
@@ -40,22 +45,22 @@ const createAuthor = async function (req, res) {
             const hashPassword = await bcrypt.hash(data.password, salt)
             req.body["password"] = hashPassword;
             let Data = await authorModel.create(data);
-            res.status(201).send({ status: true, msg: Data });
+            return res.status(201).send({ status: true, msg: Data });
         }
         else {
-            res.status(400).send({ status: false, msg: "NO USER INPUT" })
+            return res.status(400).send({ status: false, msg: "NO USER INPUT" })
         }
     }
     catch (err) {
         console.log(err.message)
-        res.status(500).send({ status: false, msg: err.message });
+        return res.status(500).send({ status: false, msg: err.message });
     }
 }
 
 const loginUser = async function (req, res) {
     try {
-        
-       let userId = req.body.email;
+
+        let userId = req.body.email;
         let password = req.body.password;
         if (!userId) return res.status(400).send({ status: false, msg: "email is required." })
         if (!password) return res.status(400).send({ status: false, msg: "Password is required." })
