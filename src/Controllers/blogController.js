@@ -105,6 +105,7 @@ const updateBlogById = async function (req, res) {
         else if (updatedCategory) {
             if (!updatedCategory.trim()) return res.status(400).send({ status: false, msg: "Category can not be empty" })
         }
+
         if (Object.keys(updatedData).length == 0) return res.status(400).send({ status: false, msg: "NO INPUT BY USER" })
         // if book is not published 
         if (!blogDetails.isPublished) {
