@@ -6,7 +6,7 @@ const ObjectId = require("mongoose").Types.ObjectId;
 const createBlog = async function (req, res) {
     try {
         let data = req.body;
-        if (Object.keys(data).length != 0) {
+        if (Object.entries(data).length != 0) {
 
             if (!data.title) return res.status(400).send({ status: false, msg: "Please Fill the required field title!" })
             else if (data.title) {
@@ -49,7 +49,7 @@ const createBlog = async function (req, res) {
 const getBlogs = async function (req, res) {
     try {
         let userInput = req.query
-        if (Object.keys(userInput).length == 0) {
+        if (Object.entries(userInput).length == 0) {
             let findBLogs = await blogModel.find({ isDeleted: false, isPublished: true })
             // If both condition false 
             if (Object.entries(findBLogs).length == 0)
