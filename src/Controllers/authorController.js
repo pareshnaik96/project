@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken")
 
 let emailRegex = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;     //email validation
 let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,15}$/    //password validation
-
+let nameRegex = /^[A-Za-z]{2,}$/    //Name validation
 const isValidTitle = function (title) {
     return ['Mr', 'Mrs', 'Miss'].indexOf(title) !== -1     //enum validation
 }
@@ -22,13 +22,17 @@ const createAuthor = async function (req, res) {
                 if (!data.fname.trim()) return res.status(400).send({ status: false, msg: "Please enter the required field fName" })
             }
             if (!data.lname) return res.status(400).send({ status: false, msg: "Please enter the required field lName" })
-            else if(data.lname){
-                if(!data.lname.trim()) return res.status(400).send({ status: false, msg: "Please enter the required field fName" })
+            else if (data.lname) {
+                if (!data.lname.trim()) return res.status(400).send({ status: false, msg: "Please enter the required field fName" })
             }
             if (!isValidTitle(data.title)) return res.status(400).send({ status: false, msg: "Please enter the required field title" })
             if (!data.email) return res.status(400).send({ status: false, msg: "Please enter the required field email" })
             if (!data.password) return res.status(400).send({ status: false, msg: "Please enter the required field password" })
             if (data.fname.length < 2) return res.status(400).send({ status: false, msg: "fName length should be min 2" })
+           
+            //Name validation
+            if(!nameRegex.test(data.fname) || !nameRegex.test(data.lname)) return res.status(400).send({ status: false, msg: "Name must be alphabetical" })
+           
             // Email Validation
             if (!emailRegex.test(data.email)) return res.status(400).send({ status: false, msg: "Please provide valid email" })
 
