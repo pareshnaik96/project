@@ -69,13 +69,13 @@ const updateBlogById = async function (req, res) {
         let blogDetails = await blogModel.findById(id)
         let blogDelete = blogDetails.isDeleted
         if (blogDelete == true) return res.status(404).send({ status: false, msg: "Blog is deleted" })
-       
+
         let updatedData = req.body
         let updatedTitle = req.body.title
         let updatedBody = req.body.body
         let updatedTag = req.body.tags
         let updatedSubcategory = req.body.subcategory
-       
+
         if (Object.keys(updatedData).length == 0) return res.status(400).send({ status: false, msg: "NO INPUT BY USER" })
         let blogPublished = blogDetails.isPublished
         // if book is not published 
