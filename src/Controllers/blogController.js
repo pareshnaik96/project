@@ -9,9 +9,21 @@ const createBlog = async function (req, res) {
         if (Object.keys(data).length != 0) {
 
             if (!data.title) return res.status(400).send({ status: false, msg: "Please Fill the required field title!" })
+            else if (data.title) {
+                if (!data.title.trim()) return res.status(400).send({ status: false, msg: "Please Fill the required field title!" })
+            }
             if (!data.body) return res.status(400).send({ status: false, msg: "Please Fill the required field body!" })
+            else if (data.body) {
+                if (!data.body.trim()) return res.status(400).send({ status: false, msg: "Please Fill the required field body!" })
+            }
             if (!data.authorId) return res.status(400).send({ status: false, msg: "Please Fill the required field Author details!" })
+            else if (data.authorId) {
+                if (!data.authorId.trim()) return res.status(400).send({ status: false, msg: "Please Fill the required field Author details!" })
+            }
             if (!data.category) return res.status(400).send({ status: false, msg: "Please Fill the required field catergory!" })
+            else if (data.category) {
+                if (!data.category.trim()) return res.status(400).send({ status: false, msg: "Please Fill the required field catergory!" })
+            }
             // Validation of ID format
             if (!ObjectId.isValid(data.authorId)) return res.status(400).send({ status: false, msg: "Not a valid author ID" })
             // Validation of id exist or not
@@ -29,7 +41,6 @@ const createBlog = async function (req, res) {
         }
     }
     catch (err) {
-        console.log(err.message)
         return res.status(500).send({ status: false, msg: err.message });
     }
 }
@@ -67,22 +78,40 @@ const updateBlogById = async function (req, res) {
         if (!ObjectId.isValid(id)) return res.status(400).send({ status: false, msg: "Not a valid BLOG ID" })
         // Id verification
         let blogDetails = await blogModel.findById(id)
-        let blogDelete = blogDetails.isDeleted
-        if (blogDelete == true) return res.status(404).send({ status: false, msg: "Blog is deleted" })
+        if (blogDetails.isDeleted) return res.status(404).send({ status: false, msg: "Blog is deleted" })
 
         let updatedData = req.body
         let updatedTitle = req.body.title
         let updatedBody = req.body.body
         let updatedTag = req.body.tags
         let updatedSubcategory = req.body.subcategory
+        let updatedCategory = req.body.category
+
+        if (!updatedTitle) {
+            return res.status(400).send({ status: false, msg: "Title can not be empty" })
+        }
+        else if (updatedTitle) {
+            if (!updatedTitle.trim()) return res.status(400).send({ status: false, msg: "Title can not be empty" })
+        }
+        if (!updatedBody) {
+            return res.status(400).send({ status: false, msg: "Body can not be empty" })
+        }
+        else if (updatedBody) {
+            if (!updatedBody.trim()) return res.status(400).send({ status: false, msg: "Body can not be empty" })
+        }
+        if (!updatedCategory) {
+            return res.status(400).send({ status: false, msg: "Category can not be empty" })
+        }
+        else if (updatedCategory) {
+            if (!updatedCategory.trim()) return res.status(400).send({ status: false, msg: "Category can not be empty" })
+        }
 
         if (Object.keys(updatedData).length == 0) return res.status(400).send({ status: false, msg: "NO INPUT BY USER" })
-        let blogPublished = blogDetails.isPublished
         // if book is not published 
-        if (blogPublished == false) {
+        if (!blogDetails.isPublished) {
             let updatedBlog = await blogModel.findOneAndUpdate({ _id: id },
                 {
-                    $set: { title: updatedTitle, body: updatedBody, isPublished: true, publishedAt: new Date() },
+                    $set: { title: updatedTitle, body: updatedBody, category: updatedCategory, isPublished: true, publishedAt: new Date() },
                     $push: { tags: updatedTag, subcategory: updatedSubcategory }
                 }, { new: true })
             return res.status(200).send({ status: true, msg: updatedBlog })
