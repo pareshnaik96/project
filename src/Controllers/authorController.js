@@ -9,6 +9,7 @@ let nameRegex = /^[A-Za-z]{2,}$/                                                
 const isValidTitle = function (title) {                                                         //enum validation
     return ['Mr', 'Mrs', 'Miss'].indexOf(title) !== -1                                          
 }
+//****We have use password Hashing the "Email id" & "Password"  is below at the page for login credenditial reference*****
 
 // Author Creation
 const createAuthor = async function (req, res) {
@@ -57,6 +58,8 @@ const createAuthor = async function (req, res) {
         return res.status(500).send({ status: false, msg: err.message });
     }
 }
+
+//[****We have use password Hashing the "Email id" & "Password"  is below at the page for login credenditial reference*****]
 // Author Login
 const loginUser = async function (req, res) {
     try {
@@ -75,7 +78,7 @@ const loginUser = async function (req, res) {
         //To create token
         let token = jwt.sign({
             authorId: getUser._id,
-            developer: "Sachin"
+            project: "blogging"
         }, "GKjdk@Xp2");
 
         res.setHeader("x-api-key", token);
@@ -91,7 +94,7 @@ const loginUser = async function (req, res) {
 module.exports.createAuthor = createAuthor;
 module.exports.loginUser = loginUser;
 
-// Authors Email Id and Password Details
+// Authors Email Id and Password Details for login reference
 // 1. Nazrul Islam
 // "email": "nazrul@gmai",
 // "password": "Nazrul@123"
