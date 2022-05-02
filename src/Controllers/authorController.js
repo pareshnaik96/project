@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 let emailRegex = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;                                 //email validation
 let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,15}$/    //password validation
 let nameRegex = /^[A-Za-z]{2,}$/                                                                //Name validation
-const isValidTitle = function (title) {                                                         //enum validation
+const validTitle = function (title) {                                                         //enum validation
     return ['Mr', 'Mrs', 'Miss'].indexOf(title) !== -1                                          
 }
 //****We have use password Hashing the "Email id" & "Password"  is below at the page for login credenditial reference*****
@@ -22,7 +22,7 @@ const createAuthor = async function (req, res) {
            
             if (!data.lname || !data.lname.trim()) return res.status(400).send({ status: false, msg: "Please enter the required field lName" })
           
-            if (!isValidTitle(data.title)) return res.status(400).send({ status: false, msg: "Please enter the required field title" })
+            if (!validTitle(data.title)) return res.status(400).send({ status: false, msg: "Please enter the required field title" })
           
             if (!data.email) return res.status(400).send({ status: false, msg: "Please enter the required field email" })
            
