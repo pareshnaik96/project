@@ -71,7 +71,7 @@ const loginUser = async function (req, res) {
         if (!userId) return res.status(400).send({ status: false, msg: "email is required." })
         if (!password) return res.status(400).send({ status: false, msg: "Password is required." })
        
-        let getUser = await authorModel.findOne({ email: userId })//.select({ password: 1 })
+        let getUser = await authorModel.findOne({ email: userId }).select({ password: 1 })
         if (!getUser) return res.status(404).send({ status: false, msg: "Author not found!" })
       
         let matchPassword = await bcrypt.compare(password, getUser.password)
