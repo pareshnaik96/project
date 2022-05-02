@@ -97,7 +97,7 @@ module.exports.loginUser = loginUser;
 
 // Authors Email Id and Password Details for login reference
 // 1. Nazrul Islam
-// "email": "nazrul@gmai",
+// "email": "nazrul@gmail.com",
 // "password": "Nazrul@123"
 
 // 2. Ruskin Bond
