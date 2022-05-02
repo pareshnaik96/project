@@ -2,7 +2,7 @@ const authorModel = require("../Models/authorModel")
 const bcrypt = require('bcrypt')
 const saltRounds = 11;
 const jwt = require("jsonwebtoken");
-const JsonWebTokenError = require("jsonwebtoken/lib/JsonWebTokenError");
+
 
 let emailRegex = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;                                 //email validation
 let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,15}$/    //password validation
