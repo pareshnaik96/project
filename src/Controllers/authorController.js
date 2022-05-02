@@ -1,7 +1,8 @@
 const authorModel = require("../Models/authorModel")
 const bcrypt = require('bcrypt')
 const saltRounds = 11;
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
+const JsonWebTokenError = require("jsonwebtoken/lib/JsonWebTokenError");
 
 let emailRegex = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;                                 //email validation
 let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,15}$/    //password validation
@@ -47,7 +48,7 @@ const createAuthor = async function (req, res) {
             req.body["password"] = hashPassword;
 
             const savedData = await authorModel.create(data);
-            return res.status(201).send({ status: true, msg: savedData });
+            return res.status(201).send({ status: true, data: savedData });
         }
         else {
             return res.status(400).send({ status: false, msg: "NO USER INPUT" })
@@ -82,7 +83,7 @@ const loginUser = async function (req, res) {
         }, "GKjdk@Xp2");
 
         res.setHeader("x-api-key", token);
-        return res.status(201).send({ status: true, msg: "User login sucessful" })
+        return res.status(201).send({ status: true, msg: "User login sucessful", data:token })
     }
     catch (err) {
         console.log(err.message)

@@ -27,7 +27,7 @@ const createBlog = async function (req, res) {
                 req.body['publishedAt'] = new Date()
 
             let saveData = await blogModel.create(data);
-            return res.status(201).send({ status: true, msg: saveData });
+            return res.status(201).send({ status: true, data: saveData });
         } else {
             return res.status(400).send({ status: false, msg: "NO USER INPUT" })
         }
@@ -46,14 +46,14 @@ const getBlogs = async function (req, res) {
             // If both condition false 
             if (Object.entries(findBLogs).length === 0) return res.status(404).send({ status: false, msg: "Sorry!! No blogs found." })
            
-            return res.status(200).send({ status: true, msg: findBLogs })
+            return res.status(200).send({ status: true, data: findBLogs })
         } else {
             let filter = { isDeleted: false, isPublished: true, ...userInput }
 
             const filterByInput = await blogModel.find(filter)
             if (Object.entries(filterByInput).length === 0) return res.status(404).send({ status: false, msg: "Sorry!! No blogs found by query." })
            
-            return res.status(200).send({ status: true, msg: filterByInput })
+            return res.status(200).send({ status: true, data: filterByInput })
         }
     } catch (err) {
         console.log(err.message)
@@ -107,7 +107,7 @@ const updateBlogById = async function (req, res) {
                     $push: { tags: updatedTag, subcategory: updatedSubcategory }
                 }, { new: true })
            
-                return res.status(200).send({ status: true, msg: updatedBlog })
+                return res.status(200).send({ status: true, data: updatedBlog })
         }
         // if book is already published
         else {
@@ -117,7 +117,7 @@ const updateBlogById = async function (req, res) {
                     $push: { tags: updatedTag, subcategory: updatedSubcategory }
                 }, { new: true })
           
-                return res.status(200).send({ status: true, msg: updatedBlog })
+                return res.status(200).send({ status: true, data: updatedBlog })
         }
 
     } catch (err) {
