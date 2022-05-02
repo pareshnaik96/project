@@ -8,9 +8,9 @@ const createBlog = async function (req, res) {
         let data = req.body;
         if (Object.entries(data).length != 0) {
 
-            if (!data.title  || !data.title.trim() ) return res.status(400).send({ status: false, msg: "Please Fill the required field title!" })
+            if (!data.title  || !data.title.trim() ) return res.status(400).send({ status: false, msg: "Please Fill the required field title!" }) //required filled can't be blank
             
-            if (!data.body || !data.body.trim()) return res.status(400).send({ status: false, msg: "Please Fill the required field body!" })
+            if (!data.body || !data.body.trim()) return res.status(400).send({ status: false, msg: "Please Fill the required field body!" }) 
            
             if (!data.authorId || !data.authorId.trim()) return res.status(400).send({ status: false, msg: "Please Fill the required field Author details!" })
             
@@ -78,7 +78,7 @@ const updateBlogById = async function (req, res) {
         let updatedSubcategory = req.body.subcategory
         let updatedCategory = req.body.category
         
-        if (Object.entries(updatedData).length === 0) return res.status(400).send({ status: false, msg: "NO INPUT BY USER" })
+        if (Object.entries(updatedData).length === 0) return res.status(400).send({ status: false, msg: "NO INPUT BY USER" })//for update required filled can't be blank
        
         if (updatedTitle=="") {
             return res.status(400).send({ status: false, msg: "Title can not be empty" })
