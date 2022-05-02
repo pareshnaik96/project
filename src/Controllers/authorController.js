@@ -43,8 +43,8 @@ const createAuthor = async function (req, res) {
                 return res.status(400).send({ status: false, msg: "Your password must contain atleast one number,uppercase,lowercase and special character[ @ $ ! % * ? & ] and length should be min of 6-15 charachaters" })
 
             //Hashing password
-            const salt = bcrypt.genSalt(saltRounds)
-            const hashPassword = bcrypt.hash(data.password, salt)
+            const salt =  await bcrypt.genSalt(saltRounds)
+            const hashPassword = await bcrypt.hash(data.password, salt)
             req.body["password"] = hashPassword;
 
             const savedData = await authorModel.create(data);
