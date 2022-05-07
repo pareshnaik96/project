@@ -116,5 +116,8 @@ module.exports.loginUser = loginUser;
 //"email": "john@gmail.com",
 // "password": "John@123"
 
+// 6.Chetan Bhagat
+// "email":"cb@gmail.com",
+// "password":"Chetan@123"
 
 
